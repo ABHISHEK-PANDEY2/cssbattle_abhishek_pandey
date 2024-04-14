@@ -1,87 +1,40 @@
-import { HotKeys, GlobalHotKeys } from "react-hotkeys";
-import React, { useRef, useState } from "react";
+import { GlobalHotKeys } from "react-hotkeys";
+import React, { useState } from "react";
 import celebrate from "./confetti";
 import logosm from "../assets/logo-sm.svg";
 import { FaCheckCircle } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
 const Home = () => {
-  const typedString = useRef("");
   const [isCorrect, setIsCorrect] = useState();
   const [attempted, setAttempted] = useState();
 
   const reset = () => {
     setIsCorrect();
     setAttempted(false);
-    typedString.current = "";
   };
 
-  const checkString = () => {
+  const checkString = (string) => {
     const ans = "cssbattle";
-    if (ans === typedString.current) {
+    if (string === ans) {
       celebrate();
       setAttempted(true);
       setIsCorrect(true);
-    }
-    const n = typedString.current.length;
-    if (n > 9 || typedString.current[n - 1] != ans[n - 1]) {
+    } else {
       setAttempted(true);
       setIsCorrect(false);
       reset();
     }
   };
 
-  const updateString = (e) => {
-    typedString.current = typedString.current + e;
-    checkString();
-  };
-
   const keymap = {
-    C: "c",
-    S: "s",
-    B: "b",
-    A: "a",
-    T: "t",
-    L: "l",
-    E: "e",
-    OTHER: [
-      "a",
-      "d",
-      "f",
-      "g",
-      "h",
-      "i",
-      "j",
-      "k",
-      "l",
-      "m",
-      "n",
-      "o",
-      "p",
-      "q",
-      "r",
-      "s",
-      "t",
-      "u",
-      "v",
-      "x",
-      "y",
-      "z",
-    ],
+    CSSBATTLE: "c s s b a t t l e",
   };
   const handlers = {
-    C: () => updateString("c"),
-    S: () => updateString("s"),
-    B: () => updateString("b"),
-    A: () => updateString("a"),
-    T: () => updateString("t"),
-    L: () => updateString("l"),
-    E: () => updateString("e"),
-    OTHER: () => updateString("-"),
+    CSSBATTLE: () => checkString("cssbattle"),
   };
   return (
     <section
       id="wrapper"
-      className="w-full h-full flex justify-center items-center"
+      className="w-full flex justify-center items-center grow"
     >
       <GlobalHotKeys keyMap={keymap} handlers={handlers}>
         <div className="flex flex-col gap-3 items-center justify-center">
